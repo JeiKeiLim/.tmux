@@ -346,6 +346,29 @@ See the sample `.local` customization file for instructions.
 
 [TPM]: https://github.com/tmux-plugins/tpm
 
+### Two-line status bar with system stats and Ollama usage
+
+The second status line is rendered by `statusline.sh`, which shows disk,
+network, CPU, RAM, battery and Ollama usage on a second status bar row.
+
+Enable it in `.tmux.conf.local`:
+
+```
+set -g status 2
+set -g status-format[1] "#(~/.tmux/statusline.sh)"
+```
+
+To show Ollama usage (5-hour and 7-day usage as percentages), the script
+fetches https://ollama.com/api/usage:
+
+1. Set the `OLLAMA_API_KEY` environment variable to your Ollama API key
+   before starting the tmux server (or push it to the running server with
+   `tmux set-environment -g OLLAMA_API_KEY 'your-key'`)
+2. The result is cached for 5 minutes in tmux options (`@ollama_usage`,
+   `@ollama_usage_ts`) so the status line does not hit the API on every
+   refresh
+3. Requires `jq` to be installed
+
 ### Accessing the macOS clipboard from within tmux sessions (tmux `< 2.6`)
 
 [Chris Johnsen created the `reattach-to-user-namespace`
