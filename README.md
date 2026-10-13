@@ -358,15 +358,15 @@ set -g status 2
 set -g status-format[1] "#(~/.tmux/statusline.sh)"
 ```
 
-To show Ollama usage (5-hour and 7-day usage as percentages), the script
-fetches https://ollama.com/api/usage:
+To show Ollama usage (5-hour and 7-day remaining percentages plus a reset
+countdown), the script fetches https://ollama.com/api/balance:
 
 1. Set the `OLLAMA_API_KEY` environment variable to your Ollama API key
    before starting the tmux server (or push it to the running server with
    `tmux set-environment -g OLLAMA_API_KEY 'your-key'`)
-2. The result is cached for 5 minutes in tmux options (`@ollama_usage`,
+2. The result is cached for 1 minute in tmux options (`@ollama_usage`,
    `@ollama_usage_ts`) so the status line does not hit the API on every
-   refresh
+   refresh (the API allows 10 requests per minute)
 3. Requires `jq` to be installed
 
 ### Accessing the macOS clipboard from within tmux sessions (tmux `< 2.6`)
